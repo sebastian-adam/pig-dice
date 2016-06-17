@@ -1,7 +1,4 @@
-var diceRoll = function() {
-  return Math.floor((Math.random()*6)+1);
-}
-
+// BACKEND
 function Rolls() {
   this.roll = 0;
   this.game = 0;
@@ -15,6 +12,12 @@ Rolls.prototype.gameSum = function(x) {
   return this.game += x;
 }
 
+var diceRoll = function() {
+  return Math.floor((Math.random()*6)+1);
+}
+
+
+// FRONTEND
 $(function() {
   var turnController = true;
   var playerOne = new Rolls ();
@@ -24,6 +27,7 @@ $(function() {
 
   $("#roll").click(function(event){
     event.preventDefault();
+    document.getElementById("hold").disabled = false;
     if (turnController === true) {
       $(".player").text("P1 GO!");
       var thisRoll = diceRoll();
@@ -34,7 +38,9 @@ $(function() {
       $("#turnScore").text(turnTotal);
       if (thisRoll === 1) {
         turnTotal = 0;
+        $("#turnScore").text("BUSTED");
         $(".player").text("P2 GO!");
+        document.getElementById("hold").disabled = true;
         return turnController = false;
       }
       return turnTotal;
@@ -48,7 +54,9 @@ $(function() {
       $("#turnScore").text(turnTotal);
       if (thisRoll === 1) {
         turnTotal = 0;
+        $("#turnScore").text("BUSTED");
         $(".player").text("P1 GO!");
+        document.getElementById("hold").disabled = true;
         return turnController = true;
       }
       return turnTotal;
@@ -62,6 +70,7 @@ $(function() {
       $("#rollScore").text('');
       $("#turnScore").text('');
       playerOne.roll = 0;
+      turnTotal = 0;
       if (playerOne.gameSum(turnTotal)>=100) {
         alert("P1 wins")
       }
@@ -72,6 +81,7 @@ $(function() {
       $("#rollScore").text('');
       $("#turnScore").text('');
       playerTwo.roll = 0;
+      turnTotal = 0;
       if (playerTwo.gameSum(turnTotal)>=100) {
         alert("P2 wins")
       }
